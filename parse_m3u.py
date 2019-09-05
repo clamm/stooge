@@ -1,7 +1,7 @@
 import sys
 
 
-def read_file(file_name):
+def read_file(file_name, line_identifier="EXTINF"):
     """
     read file and get relevant lines
 
@@ -14,7 +14,7 @@ def read_file(file_name):
         #EXTINF:0,Marquess - El temperamento.mp3
         ..\Pop\Marquess\Marquess - El temperamento.mp3
 
-    --> relevant lines are the ones with "EXTINF"
+    --> relevant lines are the ones with "EXTINF" or otherwise configured
     """
     with open(file_name, "r", encoding="cp1252") as f:
         lines = f.readlines()
