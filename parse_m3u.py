@@ -16,7 +16,7 @@ def read_file(file_name):
 
     --> relevant lines are the ones with "EXTINF"
     """
-    with open(file_name, "r", encoding="unicode_escape") as f:
+    with open(file_name, "r", encoding="cp1252") as f:
         lines = f.readlines()
         i = 0
         for line in lines:
