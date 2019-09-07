@@ -19,16 +19,18 @@ def read_file(file_name, line_identifier="EXTINF"):
     with open(file_name, "r", encoding="cp1252") as f:
         lines = f.readlines()
         i = 0
+        result = []
         for line in lines:
-            i = i + 1
-            if "EXTINF" in line:
-                print(line)
-        print(i)
+            if line_identifier in line:
+                i = i + 1
+                result.append(line)
+        return result
 
 
 def main(file_name):
     # read file and get relevant lines
-    read_file(file_name)
+    result = read_file(file_name)
+    print(result)
     # parse lines into song / artist information
     # possibly write out unknowns to shazam later
     # make query out of song / artist information
