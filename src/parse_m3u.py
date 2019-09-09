@@ -34,10 +34,9 @@ def main(file_name):
     # parse lines into song / artist information
     # possibly write out unknowns to shazam later
     # make query out of song / artist information
-    # fire search query against spotify API https://developer.spotify.com/documentation/web-api/reference/search/search/
-    # figure out authentication and authorization of spotify API https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow
+    # fire search query against search spotify API
     # parse search result
-    # put search result into playlist via spotify API https://developer.spotify.com/documentation/web-api/reference/playlists/
+    # put search result into playlist via playlist spotify API
 
 
 if __name__ == "__main__":
