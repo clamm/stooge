@@ -7,6 +7,8 @@ NB: stooge = (derogatory) A subordinate used by another to do unpleasant routine
 
 ## Usage
 
+Install required packages `pip install -r requirements.txt`
+
 Execute with `python3 src/parse_m3u.py example/Pop.m3u`
 
 
