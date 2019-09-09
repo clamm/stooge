@@ -1,3 +1,5 @@
+<img align="right" src="https://travis-ci.org/clamm/stooge.svg?branch=master"/>
+
 # Stooge
 
 Parse m3u playlists to search for their contents on Spotify and create Spotify playlists from the m3u playlist.
