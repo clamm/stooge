@@ -2,7 +2,7 @@ import nose2
 import unittest
 from unittest.mock import patch, mock_open
 
-from parse_m3u import read_file
+from parse_m3u import read_file, main
 
 
 class TestParser(unittest.TestCase):
@@ -40,6 +40,9 @@ class TestParser(unittest.TestCase):
     def test_mock_read_file_returns_0_rows_with_wrong_identifier(self, mock_open):
         identified_lines = read_file("./example/Pop.m3u", line_identifier="foobar")
         self.assertEqual(len(identified_lines), 0)
+
+    def test_whole_application_runs_without_error(self):
+        main("./example/Pop.m3u")
 
 
 if __name__ == "__main__":
