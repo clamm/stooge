@@ -23,12 +23,13 @@ Code written in python 3.6.
 ## Next steps
 
 * ✔️ setup tests
-  * ☐ mock open() and hand in lines
+  * ✔️ mock open() and hand in lines
 * ✔️ read file and get relevant lines
 * ☐ parse lines into song / artist information
+  * ☐ possibly write out entries with "unknown" to shazam later to find actual song/artist
 * ☐ make query out of song / artist information
 * ☐ fire search query against [Spotify search API](https://developer.spotify.com/documentation/web-api/reference/search/search/)
   * ☐ figure out authentication and authorization of Spotify API ([docs](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow))
 * ☐ parse search result that was returned by API
-  * ☐ possibly write out unknowns to shazam later?
+  * ☐ log what wasn't found
 * ☐ put search result into playlist via [Spotify playlist API](https://developer.spotify.com/documentation/web-api/reference/playlists/)
