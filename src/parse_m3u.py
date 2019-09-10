@@ -1,7 +1,9 @@
+import pandas as pd
+import re
 import sys
 
 
-def read_file(file_name, line_identifier="EXTINF"):
+def read_file(file_name, line_identifier="#EXTINF:"):
     """
     read file and get relevant lines
 
@@ -23,14 +25,29 @@ def read_file(file_name, line_identifier="EXTINF"):
         for line in lines:
             if line_identifier in line:
                 i = i + 1
-                result.append(line)
+                result.append(parse_line(line.replace(line_identifier, "")))
         return result
+
+
+def parse_line(line):
+    result = {}
+    line_without_suffix = re.sub("\.mp3$", "", line.rstrip(), flags=re.IGNORECASE)
+    line_without_prefix = line_without_suffix.split(",")[1]
+    dash_splits = re.split("\s-\s", line_without_prefix)
+    if len(dash_splits) > 1:
+        result["artist"] = dash_splits[0].strip()
+        result["song"] = dash_splits[1].strip()
+    else:
+        result["artist"] = "unknown"
+        result["song"] = "unknown"
+        result["raw"] = line
+    return result
 
 
 def main(file_name):
     # read file and get relevant lines
     result = read_file(file_name)
-    print(result)
+    pd.DataFrame(result).to_csv("tmp.csv", index=False, encoding="utf-8")
     # parse lines into song / artist information
     # possibly write out unknowns to shazam later
     # make query out of song / artist information
