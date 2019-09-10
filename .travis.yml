@@ -4,7 +4,8 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  nose2
+  - nose2
+  - flake8
 branches:
   only:
     - master
