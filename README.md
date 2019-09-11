@@ -39,3 +39,4 @@ Code written in python 3.6.
 * ☐ parse search result that was returned by API
   * ☐ log what wasn't found
 * ☐ put search result into playlist via [Spotify playlist API](https://developer.spotify.com/documentation/web-api/reference/playlists/)
+* ☐ add licence to repo
