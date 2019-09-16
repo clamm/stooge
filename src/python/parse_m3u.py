@@ -1,4 +1,4 @@
-import pandas as pd
+import json
 import re
 import sys
 
@@ -47,7 +47,8 @@ def parse_line(line):
 def main(file_name):
     # read file and get relevant lines
     result = read_file(file_name)
-    pd.DataFrame(result).to_csv("tmp.csv", index=False, encoding="utf-8")
+    with open("../../example/pop.json", "w") as f:
+        json.dump(result, f, indent=4, sort_keys=True)
     # parse lines into song / artist information
     # possibly write out unknowns to shazam later
     # make query out of song / artist information
