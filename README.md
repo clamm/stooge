@@ -9,19 +9,32 @@ NB: stooge = (derogatory) A subordinate used by another to do unpleasant routine
 
 ## Usage
 
+The program is structured in three parts:
+
+1. read and parse the original .m3u file and save the result as json file to disk ([parse_m3u.py](./src/python/))
+1. read json file and search songs in Spotify and save result as json file to disk ([search_songs.js](./src/node/))
+1. read second json file and post songs to playlist in Spotify ([create_playlist.js](./src/node/))
+
+
+### Python
+
 Install required packages `pip install -r requirements.txt`
 
 Execute with `python3 src/parse_m3u.py example/Pop.m3u`
 
 
-### Tests
+#### Tests
 
-Install [nose](https://nose.readthedocs.org/en/latest/) and [nosetests-json-extended](https://github.com/thschenk/nosetests-json-extended):
-`pip install nose nosetests-json-extended`
+Install necessary python packages:
+```
+cd src/python
+pip install -r requirements.txt
+```
 
 Run tests on command line with `python3 -m nose --with-json-extended` (or in atom editor using [python-nosetests plugin](https://atom.io/packages/python-nosetests) with F5 - I haven't found convenient way yet to use [nose2](https://github.com/nose-devs/nose2) in atom).
 
 Code written in python 3.6.
+
 
 
 ## Next steps
@@ -35,8 +48,15 @@ Code written in python 3.6.
 * ☐ make query out of song / artist information
 * ☐ fire search query against [Spotify search API](https://developer.spotify.com/documentation/web-api/reference/search/search/)
   * ✔️ figure out authentication and authorization of Spotify API ([docs](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow)) --> I think [Client Credentials Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow) is the way to go
-  * ☐ Replicate [app.js](https://github.com/spotify/web-api-auth-examples/blob/master/client_credentials/app.js) in python or find way to hand in request to nodejs server from python and hand out API response to handle in python
+  * ✔️figure out how to build on [app.js](https://github.com/spotify/web-api-auth-examples/blob/master/client_credentials/app.js) to access Spotify APIs
+  * ☐ add tests for nodejs
 * ☐ parse search result that was returned by API
   * ☐ log what wasn't found
 * ☐ put search result into playlist via [Spotify playlist API](https://developer.spotify.com/documentation/web-api/reference/playlists/)
 * ☐ add licence to repo
+* ☐ write shell script to call different parts of program
+
+
+# Acknowledgement
+
+Thanks to Spotify for providing the [Authentication Flow example app](https://github.com/spotify/web-api-auth-examples) and @FQ400 for making sense of it!

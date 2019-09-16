@@ -5,6 +5,9 @@ from unittest.mock import patch, mock_open
 from parse_m3u import read_file, parse_line, main
 
 
+EXAMPLE = "../../example/Pop.m3u"
+
+
 class TestParser(unittest.TestCase):
     popm3u = """
 #EXTM3U
@@ -45,17 +48,17 @@ class TestParser(unittest.TestCase):
         ]
 
     def test_read_file_doesnt_throw_decode_error(self):
-        identified_lines = read_file("./example/Pop.m3u")
+        identified_lines = read_file(EXAMPLE)
         self.assertEqual(len(identified_lines), 137)
 
     @patch("builtins.open", new_callable=mock_open, read_data=popm3u)
     def test_mock_read_file_returns_correct_number_of_rows(self, mock_open):
-        identified_lines = read_file("./example/Pop.m3u")
+        identified_lines = read_file(EXAMPLE)
         self.assertEqual(len(identified_lines), 6)
 
     @patch("builtins.open", new_callable=mock_open, read_data=popm3u)
     def test_mock_read_file_returns_0_rows_with_wrong_identifier(self, mock_open):
-        identified_lines = read_file("./example/Pop.m3u", line_identifier="foobar")
+        identified_lines = read_file(EXAMPLE, line_identifier="foobar")
         self.assertEqual(len(identified_lines), 0)
 
     def test_parse_single_line(self):
@@ -91,12 +94,12 @@ class TestParser(unittest.TestCase):
             self.assertEqual(result, self.parsed_lines[i])
 
     def test_parse_popm3u_returns_3_unknowns(self):
-        result = read_file("./example/Pop.m3u")
+        result = read_file(EXAMPLE)
         unknowns = [r for r in result if "raw" in r.keys()]
         self.assertEqual(len(unknowns), 3)
 
     def test_whole_application_runs_without_error(self):
-        main("./example/Pop.m3u")
+        main(EXAMPLE)
 
 
 if __name__ == "__main__":
