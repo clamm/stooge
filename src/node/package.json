@@ -9,5 +9,14 @@
     "express": "~4.17.1",
     "querystring": "~0.2.0",
     "request": "~2.88.0"
+  },
+  "scripts": {
+    "lint": "eslint \"./**/*.js\"",
+    "test": "make test"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-plugin-mocha": "^6.1.1",
+    "mocha": "~6.2.0"
   }
 }

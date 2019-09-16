@@ -1,13 +1,27 @@
-language: python
-python:
-  - "3.6"
-before_install:
-  - cd src/python
-install:
-  - pip install -r requirements.txt
-script:
-  - nose2
-  - flake8
+matrix:
+  include:
+  - language: python
+    python:
+      - "3.6"
+    before_install:
+      - cd src/python
+    install:
+      - pip install -r requirements.txt
+    script:
+      - nose2
+      - flake8
+
+  - language: node_js
+    node_js:
+      - 12.10
+    before_install:
+      - cd src/node
+    install:
+      - npm install
+    script:
+      - npm run lint
+      - npm test
+
 branches:
   only:
     - master
