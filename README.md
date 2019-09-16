@@ -36,10 +36,23 @@ Run tests on command line with `python3 -m nose --with-json-extended` (or in ato
 Code written in python 3.6.
 
 
+### Node JS
+
+Install required node js packages with
+```
+cd src/node
+npm install
+```
+
+#### Tests
+
+TODO
+[jest](https://jestjs.io/docs/en/getting-started) or [mocha](https://mochajs.org/#getting-started)
+
 
 ## Next steps
 
-* ✔️ setup tests
+* ✔️ setup python tests
   * ✔️ mock open() and hand in lines
 * ✔️ read file and get relevant lines
 * ✔️ parse lines into song / artist information
@@ -49,7 +62,7 @@ Code written in python 3.6.
 * ☐ fire search query against [Spotify search API](https://developer.spotify.com/documentation/web-api/reference/search/search/)
   * ✔️ figure out authentication and authorization of Spotify API ([docs](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow)) --> I think [Client Credentials Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow) is the way to go
   * ✔️figure out how to build on [app.js](https://github.com/spotify/web-api-auth-examples/blob/master/client_credentials/app.js) to access Spotify APIs
-  * ☐ add tests for nodejs
+  * ☐ add linting and tests for nodejs
 * ☐ parse search result that was returned by API
   * ☐ log what wasn't found
 * ☐ put search result into playlist via [Spotify playlist API](https://developer.spotify.com/documentation/web-api/reference/playlists/)
