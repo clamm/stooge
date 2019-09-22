@@ -1,18 +1,20 @@
 // This is based on https://github.com/spotify/web-api-auth-examples
 
-var request = require('request'); // "Request" library
+const request = require("request");
+const querystring = require("querystring");
+const fs = require("fs");
 
-var client_id = 'client_id'; // Your client id
-var client_secret = 'client_credentials'; // Your secret
+const client_id = "client_id";
+const client_secret = "client_secret";
 
-// your application requests authorization
-var authOptions = {
-  url: 'https://accounts.spotify.com/api/token',
+// request authorization
+const authOptions = {
+  url: "https://accounts.spotify.com/api/token",
   headers: {
-    'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+    "Authorization": "Basic " + (new Buffer(client_id + ":" + client_secret).toString("base64"))
   },
   form: {
-    grant_type: 'client_credentials'
+    grant_type: "client_credentials"
   },
   json: true
 };
@@ -25,71 +27,126 @@ const authed_request = function(url, callback) {
       // use the access token to access the Spotify Web API
       var token = body.access_token;
       // console.log(token)
-
+      console.log("running authed request")
       var options = {
         url: url,
         headers: {
-          'Authorization': 'Bearer ' + token
+          "Authorization": "Bearer " + token
         },
         json: true
       };
-      request.get(options, callback);
+      request.get(options, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+          callback(body);
+        } else {
+          throw (error);
+        }
+      });
     }
   });
 }
 
 
-const url_builder = function(song, artist) {
-  // function that escape special characters: encode url component
-  // 'https://api.spotify.com/v1/search?query=track%3AHot+N+Cold+artist%3AKaty+Perry&type=track&offset=0&limit=20'
-  var url = song + artist
-  return url
+const url_builder = function(song_artist) {
+  if (("track" in song_artist) == false || ("artist" in song_artist) == false) {
+    throw new Error("no artist or track information: " + song_artist);
+  }
+  var base_url = "https://api.spotify.com/v1/search?query=";
+  var options = {
+    "type": "track",
+    "offset": 0,
+    "limit": 5
+  };
+
+  const query = {
+    ...song_artist,
+    ...options
+  };
+
+  var query_str = querystring.stringify(query);
+  var url = base_url + query_str;
+  return url;
 };
 
 
-const get_body_upon_success = function(error, response, body) {
-  if (!error && response.statusCode === 200) {
-    // console.log(body);
-    return body;
+const get_top_x = function(body, callback, top_x = 3) {
+  if (typeof body !== "undefined" && body) {
+    if ("tracks" in body && "items" in body.tracks) {
+      console.log("running get_top_x")
+      var limited = body.tracks.items.slice(0, top_x);
+
+      var local_results = [];
+      limited.forEach(function(item) {
+        var fmt = {
+          "artists": item.artists.forEach(function(a) {
+            return {
+              "name": a.name,
+              "type": a.type,
+            }
+          }),
+          "name": item.name,
+          "type": item.track,
+          "uri": item.uri
+        }
+        local_results.push(fmt)
+      });
+
+      var top_x_tracks = {
+        "top_3": local_results
+      };
+      callback(top_x_tracks);
+
+    } else {
+      throw new Error("no tracks or items found in body")
+    }
   } else {
-    return {};
+    throw new Error("search response is undefined")
   }
-};
 
-
-const get_top_x = function(body) {
-  // navigate through results
-  // return top 3 songs
-  body[0]
-  return {
-    "artist": "",
-    "song": "",
-    "top_3": []
-  }
 };
 
 
 const save_search_results = function(file_name, top_3_songs) {
-  // save to file
-  top_3_songs
+  fs.writeFile(file_name, top_3_songs, function(err) {
+    if (err) {
+      throw (err);
+    }
+    console.log("The file " + file_name + " was saved!");
+  });
+};
+
+
+const appender = function(global_results, top_x) {
+  console.log("running appender")
+  console.log(global_results)
+  global_results.push(top_x);
 };
 
 
 // writer is an input because that'll be easier to test
 const do_search_requests = function(input_file, writer) {
-  var the_file = require(input_file)
-  var result = []
-  for (var line in the_file) {
-    var url = url_builder(line["song"], line["artist"])
-    var body = authed_request(url, get_body_upon_success)
-    var top_x = get_top_x(body)
-    result.push(top_x)
-  }
-  writer(result)
+  var contents = fs.readFileSync(input_file);
+  var jsonContent = JSON.parse(contents);
+  var global_results = [];
+  jsonContent.forEach(function(line) {
+    var url = url_builder(line);
+    // TODO this should happen after internal callbacks returned
+    authed_request(url, function(body) {
+      get_top_x(body, function(top_x) {
+        appender(global_results, top_x);
+      })
+    });
+  });
+  writer(global_results);
 }
 
 
 
-module.exports = url_builder, save_search_results, do_search_requests;
+module.exports = {
+  url_builder: url_builder,
+  get_top_x: get_top_x,
+  save_search_results: save_search_results,
+  do_search_requests: do_search_requests
+};
 
 // create playlist related functions

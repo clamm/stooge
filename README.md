@@ -59,12 +59,13 @@ Code written in NodeJS 12.10.
 * ✔️ parse lines into song / artist information
   * ☐ possibly be smarter in parsing non-conform lines
   * ☐ possibly save entries with (originally) unknown artist/song, to shazam later to find actual song/artist
-* ☐ make query out of song / artist information
-* ☐ fire search query against [Spotify search API](https://developer.spotify.com/documentation/web-api/reference/search/search/)
+* ✔️ make query out of song / artist information
+* ✔️ fire search query against [Spotify search API](https://developer.spotify.com/documentation/web-api/reference/search/search/)
   * ✔️ figure out authentication and authorization of Spotify API ([docs](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow)) --> I think [Client Credentials Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow) is the way to go
   * ✔️figure out how to build on [app.js](https://github.com/spotify/web-api-auth-examples/blob/master/client_credentials/app.js) to access Spotify APIs
   * ✔️ add linting and tests for nodejs
-* ☐ parse search result that was returned by API
+  * ☐ figure out how to loop over individual song requests (given that they have async callbacks) and I want one file with _all songs_
+* ✔️ parse search result that was returned by API
   * ☐ log what wasn't found
 * ☐ put search result into playlist via [Spotify playlist API](https://developer.spotify.com/documentation/web-api/reference/playlists/)
 * ☐ add licence to repo
