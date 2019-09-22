@@ -36,10 +36,10 @@ def parse_line(line):
     dash_splits = re.split("\s-\s", line_without_prefix)
     if len(dash_splits) > 1:
         result["artist"] = dash_splits[0].strip()
-        result["song"] = dash_splits[1].strip()
+        result["track"] = dash_splits[1].strip()
     else:
         result["artist"] = "unknown"
-        result["song"] = "unknown"
+        result["track"] = "unknown"
         result["raw"] = line
     return result
 
